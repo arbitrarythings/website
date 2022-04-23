@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Endow</title>
+    <meta
+      name="description"
+      content="An awesome website about somebody named EndowTheGreat."
+    />
+    <link
+      rel="shortcut icon"
+      href="https://cdn.discordapp.com/attachments/887882639955066933/911129255012888596/avatar.ico"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Heebo&family=Noto+Serif:wght@700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #282828;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      color: #ebdbb2;
+    }
+    .container {
+      display: grid;
+      place-items: center;
+      height: 55vh;
+    }
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      padding-right: 1rem;
+      overflow: hidden;
+      background-color: #282828;
+    }
+    li {
+      float: right;
+      font-family: "Heebo", sans-serif;
+    }
+    li a {
+      display: block;
+      color: #ebdbb2;
+      text-align: center;
+      padding: 0.5rem;
+      text-decoration: none;
+    }
+    li a:hover {
+      background-color: #1d2021;
+    }
+    .heading-container {
+      display: grid;
+      place-items: center;
+      width: 100%;
+    }
+    .heading .subheading {
+      text-align: center;
+    }
+    .heading {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-family: "Heebo", sans-serif;
+    }
+    .subheading {
+      font-size: 1.2rem;
+      font-family: "Noto Serif", serif;
+    }
+    .projects-heading {
+      text-align: center;
+      font-size: 1.7rem;
+      font-family: "Heebo", sans-serif;
+    }
+    .about-me-heading {
+      text-align: center;
+      font-size: 1.7rem;
+    }
+    .project {
+      width: 50%;
+      margin: auto;
+      padding-top: 2rem;
+      font-family: "Noto Serif", serif;
+    }
+    @media (max-width: 1582px) {
+      .project {
+        width: 70%;
+        /* text-align: center; */
+      }
+    }
+    @media (max-width: 1130px) {
+      .project {
+        width: 70%;
+      }
+      .project p {
+        text-align: center;
+      }
+    }
+    p a {
+      color: #ebdbb2;
+      font-weight: bold;
+    }
+  </style>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div class="heading-container">
+        <h1 class="heading">Endow</h1>
+        <p class="subheading">An awesome website, all about me</p>
+      </div>
+    </div>
+    <section class="projects-section">
+      <h1 class="projects-heading">Projects</h1>
+      <div class="project">
+        <p>
+          <a href="https://gitlab.com/EndowTheGreat/music-fetch">music-fetch</a>
+          - Fetch the song you're currently playing over MPD.
+        </p>
+        <p>
+          <a href="https://github.com/EndowTheGreat/googlebeforeyouask"
+            >googlebeforeyouask</a
+          >
+          - A webpage to send to those who apparently don't know how to Google
+          things.
+        </p>
+        <p>
+          <a href="#">onionhead</a>
+          - A portable, disposable chat service that runs on the Tor network.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
