@@ -1,4 +1,4 @@
--- 0.1
+-- 0.2
 util.toast("Welcome to Endow's Annoyscript. You're now a cool kid")
 util.require_natives(1640181023)
 
@@ -13,7 +13,7 @@ end
 
 local function player(pid)
     local detections = { "Being too awesome", "Annoyscript developer", "Rockstar CEO (leave session immediately)" }
-    if players.get_rockstar_id(pid) == 211749254 then
+    if players.get_rockstar_id(pid) == 211749254 then -- thanks for the idea, Prism
         util.toast(players.get_name(pid) .. " triggered a detection: " .. detections[math.random(#detections)])
     end
     menu.divider(menu.player_root(pid), "Endow's Annoyscript")
@@ -23,6 +23,10 @@ local function player(pid)
     menu.toggle_loop(annoying_stuff, "Message Spam", { "txtspam" },
         "Spams the player with troll texts and sound effects.", function()
         util.trigger_script_event(1 << pid, { -1702264142, pid, 5423258964353897800, 844318034 })
+    end)
+    menu.toggle_loop(annoying_stuff, "Fake Insurance Payments", { "fakeinsurance" },
+        "Spams the player with fake insurance payment notifications.", function()
+        util.trigger_script_event(1 << pid, { 0x2FCF970F, pid, math.random(0, 2147483647) })
     end)
     menu.toggle_loop(annoying_stuff, "Harmless Explosion Loop", { "harmlessbombloop" },
         "Loops a harmless explosion near the player.", function()
@@ -73,6 +77,16 @@ local function player(pid)
             end
             STREAMING.REQUEST_MODEL(1765283457)
             OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
+        end)
+    menu.action(annoying_stuff, "Mime Player", { "mimeplayer" }, "Same as box player, only this one is invisible.",
+        function()
+            local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
+            if not STREAMING.IS_MODEL_VALID(1765283457) then
+                util.yield()
+            end
+            STREAMING.REQUEST_MODEL(1765283457)
+            local box = OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
+            ENTITY.SET_ENTITY_VISIBLE(box, false)
         end)
     menu.action(annoying_stuff, "Send To Island", { "sendisland" }, "Ships the player off to Cayo Perico.", function()
         util.trigger_script_event(1 << pid, { 1463943751, pid, 0, 0, 4, 1, 0 })
