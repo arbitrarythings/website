@@ -1,13 +1,11 @@
--- 0.2.1
+-- 0.2.2
 util.toast("Welcome to AnnoyScript. You're now a cool kid")
-util.require_natives(1640181023)
+util.require_natives(1651208000)
 
 local function request_control(entity)
-    local i = 0
-    while not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(entity) and i < 100000 do
-        util.yield()
+    while not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(entity) do
         NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(entity)
-        i = i + 1
+        util.yield()
     end
 end
 
@@ -21,10 +19,7 @@ local function player(pid)
     local vehicle_stuff = menu.list(menu.player_root(pid), "Vehicle Stuff", {}, "")
     local hvh_stuff = menu.list(menu.player_root(pid), "HVH Stuff", {}, "")
     menu.toggle_loop(annoying_stuff, "Message Spam", { "txtspam" }, "Spams the player with troll texts and sound effects.", function()
-        util.trigger_script_event(1 << pid, { -1702264142, pid, 5423258964353897800, 844318034 })
-    end)
-    menu.toggle_loop(annoying_stuff, "Fake Insurance Payments", { "fakeinsurance" }, "Spams the player with fake insurance payment notifications.", function()
-        util.trigger_script_event(1 << pid, { 0x2FCF970F, pid, math.random(0, 2147483647) })
+        util.trigger_script_event(1 << pid, { -791892894, pid, 5423258964353897800, 844318034 })
     end)
     menu.toggle_loop(annoying_stuff, "Harmless Explosion Loop", { "harmlessbombloop" }, "Loops a harmless explosion near the player.", function()
         local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
@@ -80,7 +75,7 @@ local function player(pid)
             ENTITY.SET_ENTITY_VISIBLE(box, false)
         end)
     menu.action(annoying_stuff, "Send To Island", { "sendisland" }, "Ships the player off to Cayo Perico.", function()
-        util.trigger_script_event(1 << pid, { 1463943751, pid, 0, 0, 4, 1, 0 })
+        util.trigger_script_event(1 << pid, { 1214823473, pid, 0, 0, 4, 1, 0 })
     end)
     menu.action(annoying_stuff, "Send Chris Formage", { "sendchris" }, "Sends Chris Formage to blast the player into outer space.", function()
         if not STREAMING.IS_MODEL_VALID(678319271) then
@@ -123,11 +118,11 @@ local function player(pid)
             end
         end)
     menu.action(vehicle_stuff, "Kick From Vehicle", { "vehiclekick" }, "Kicks the player out of their vehicle.", function()
-            util.trigger_script_event(1 << pid, { 578856274, pid, 0, 0, 0, 0, 0, 0, 0 })
+            util.trigger_script_event(1 << pid, { -714268990, pid, 0, 0, 0, 0, 0, 0, 0 })
         end)
     menu.action(vehicle_stuff, "Destroy Personal Vehicle", { "destroypersonal" }, "Destroys the personal vehicle of the player.", function()
-        util.trigger_script_event(1 << pid, { 3268179810, pid, pid })
-        util.trigger_script_event(1 << pid, { 578856274, pid, 0, 0, 0, 0, 0, 0, 0 })
+        util.trigger_script_event(1 << pid, { -2126830022, pid, pid })
+        util.trigger_script_event(1 << pid, { -714268990, pid, 0, 0, 0, 0, 0, 0, 0 })
     end)
     menu.toggle(vehicle_stuff, "No Grip", { "nogrip" }, "Removes all traction from the player's vehicle.",
         function(enabled)
@@ -155,7 +150,7 @@ local function player(pid)
             end
         end)
     menu.toggle_loop(hvh_stuff, "Remove Godmode", { "removegodmode" }, "Removes the player's godmode. This will only work on bad menus.", function()
-        util.trigger_script_event(1 << pid, { 801199324, pid, 869796886, math.random(0, 9999) })
+        util.trigger_script_event(1 << pid, { -1388926377, pid, -1762807505, math.random(0, 9000) })
     end)
     menu.toggle_loop(hvh_stuff, "Annoying Loop", { "annoyinggmloop" }, "Yet another annoying loop, only this one is for godmode players.", function()
         local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
