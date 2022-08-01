@@ -1,4 +1,4 @@
--- 0.2.2
+-- 0.2.3
 util.toast("Welcome to AnnoyScript. You're now a cool kid")
 util.require_natives(1651208000)
 
@@ -16,6 +16,7 @@ local function player(pid)
     end
     menu.divider(menu.player_root(pid), "AnnoyScript")
     local annoying_stuff = menu.list(menu.player_root(pid), "Annoying Stuff", {}, "")
+    local trolling_stuff = menu.list(menu.player_root(pid), "Trolling Stuff", {}, "")
     local vehicle_stuff = menu.list(menu.player_root(pid), "Vehicle Stuff", {}, "")
     local hvh_stuff = menu.list(menu.player_root(pid), "HVH Stuff", {}, "")
     menu.toggle_loop(annoying_stuff, "Message Spam", { "txtspam" }, "Spams the player with troll texts and sound effects.", function()
@@ -23,19 +24,17 @@ local function player(pid)
     end)
     menu.toggle_loop(annoying_stuff, "Harmless Explosion Loop", { "harmlessbombloop" }, "Loops a harmless explosion near the player.", function()
         local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 26, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 36, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 38, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 32, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 59, 0, true, false, 1, false)
+        local explosions = { 26, 32, 36, 38, 59 }
+        for explosion = 0, #explosions do
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, explosions[explosion], 0, true, false, 1, false)
+        end
     end)
     menu.toggle_loop(annoying_stuff, "Annoying Loop", { "annoyingloop" }, "Loops a bunch of annoying stuff near the player.", function()
         local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 38, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 70, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 65, 0, true, false, 1, false)
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, 63, 0, true, false, 1, false)
-        FIRE.STOP_FIRE_IN_RANGE(pos.x, pos.y, pos.z, 10)
+        local explosions = { 38, 63, 65, 70 }
+        for explosion = 0, #explosions do
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z - 2, explosions[explosion], 0, true, false, 1, false)
+        end
     end)
     menu.toggle_loop(annoying_stuff, "Ear Rape v1", { "earrape1" }, "Ear rape the player.", function()
         local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
@@ -52,32 +51,51 @@ local function player(pid)
             end
         end)
     menu.action(annoying_stuff, "Stop All Sounds", { "stopsounds" }, "Stops all the sounds (to counter ear-rape), pretty self explanatory.", function()
-        for i = -1, 100 do
+        for i = 0, 100 do
             AUDIO.STOP_SOUND(i)
             AUDIO.RELEASE_SOUND_ID(i)
         end
     end)
-    menu.action(annoying_stuff, "Box Player", { "boxplayer" }, "Boxes the player up for easy shipment to China.", function()
-            local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-            if not STREAMING.IS_MODEL_VALID(1765283457) then
-                util.yield()
-            end
-            STREAMING.REQUEST_MODEL(1765283457)
-            OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
-        end)
-    menu.action(annoying_stuff, "Mime Player", { "mimeplayer" }, "Same as box player, only this one is invisible.", function()
-            local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-            if not STREAMING.IS_MODEL_VALID(1765283457) then
-                util.yield()
-            end
-            STREAMING.REQUEST_MODEL(1765283457)
-            local box = OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
-            ENTITY.SET_ENTITY_VISIBLE(box, false)
-        end)
-    menu.action(annoying_stuff, "Send To Island", { "sendisland" }, "Ships the player off to Cayo Perico.", function()
+    menu.action(annoying_stuff, "Harass", { "harass" }, "Harass the player.", function()
+        util.trigger_script_event(1 << pid, { -791892894, pid, 6868639604984336963, 5657426 })
+        util.trigger_script_event(1 << pid, { -791892894, pid, 5497007645930637648, 83 })
+        util.trigger_script_event(1 << pid, { -791892894, pid, 90457721034051 })
+        util.trigger_script_event(1 << pid, { -791892894, pid, 3472943069862776133, 51 })
+    end)
+    menu.toggle_loop(trolling_stuff, "Fake Cash Drop", { "fakemoney" }, "Gives the player a fake cash drop, getting their hopes and dreams up. At least until they decide to check their balance.", function()
+        local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
+        if not STREAMING.IS_MODEL_VALID(2628187989) then
+            util.yield()
+        end
+        STREAMING.REQUEST_MODEL(2628187989)
+        local cash = OBJECT.CREATE_OBJECT_NO_OFFSET(2628187989, pos.x, pos.y, pos.z + 1.5)
+        ENTITY.APPLY_FORCE_TO_ENTITY(cash, 1, 0, 0, -2.0, 0.0, 0.0, 0.0, true, true)
+        AUDIO.PLAY_SOUND_FROM_COORD(-1, "LOCAL_PLYR_CASH_COUNTER_COMPLETE", pos.x, pos.y, pos.z, "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", true, 1)
+        menu.trigger_commands("notifybanked" .. players.get_name(pid) .. " 500000")
+        util.yield(300)
+        entities.delete(cash)
+    end)
+    menu.action(trolling_stuff, "Box Player", { "boxplayer" }, "Boxes the player up for easy shipment to China.", function()
+        local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
+        if not STREAMING.IS_MODEL_VALID(1765283457) then
+            util.yield()
+        end
+        STREAMING.REQUEST_MODEL(1765283457)
+        OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
+    end)
+    menu.action(trolling_stuff, "Mime Player", { "mimeplayer" }, "Same as box player, only this one is invisible.", function()
+        local pos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
+        if not STREAMING.IS_MODEL_VALID(1765283457) then
+            util.yield()
+        end
+        STREAMING.REQUEST_MODEL(1765283457)
+        local box = OBJECT.CREATE_OBJECT_NO_OFFSET(1765283457, pos.x, pos.y, pos.z - 1, true, false, false)
+        ENTITY.SET_ENTITY_VISIBLE(box, false)
+    end)
+    menu.action(trolling_stuff, "Send To Island", { "sendisland" }, "Ships the player off to Cayo Perico.", function()
         util.trigger_script_event(1 << pid, { 1214823473, pid, 0, 0, 4, 1, 0 })
     end)
-    menu.action(annoying_stuff, "Send Chris Formage", { "sendchris" }, "Sends Chris Formage to blast the player into outer space.", function()
+    menu.action(trolling_stuff, "Send Chris Formage", { "sendchris" }, "Sends Chris Formage to blast the player into outer space.", function()
         if not STREAMING.IS_MODEL_VALID(678319271) then
             util.yield()
         end
@@ -110,9 +128,9 @@ local function player(pid)
         end
     end)
     menu.action(vehicle_stuff, "Kill Engine", { "killengine" }, "Kills the engine of the player's vehicle.", function()
-            request_control(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), false))
-            if NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), false)) then
-                VEHICLE.SET_VEHICLE_ENGINE_HEALTH(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), false), -4000.0)
+            request_control(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true))
+            if NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)) then
+                VEHICLE.SET_VEHICLE_ENGINE_HEALTH(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true), -4000.0)
             else
                 util.toast("Could not get control of vehicle.")
             end
@@ -123,6 +141,24 @@ local function player(pid)
     menu.action(vehicle_stuff, "Destroy Personal Vehicle", { "destroypersonal" }, "Destroys the personal vehicle of the player.", function()
         util.trigger_script_event(1 << pid, { -2126830022, pid, pid })
         util.trigger_script_event(1 << pid, { -714268990, pid, 0, 0, 0, 0, 0, 0, 0 })
+    end)
+    menu.action(vehicle_stuff, "Lester Raid", { "lesterraid" }, "Raids the player's vehicle with a party of Lesters.", function()
+        util.trigger_script_event(1 << pid, { -714268990, pid, 0, 0, 0, 0, 0, 0, 0 })
+        util.yield(2500)
+        if not STREAMING.IS_MODEL_VALID(2013139108) then
+            util.yield()
+        end
+        STREAMING.REQUEST_MODEL(2013139108)
+        local lester_driver = entities.create_ped(28, 2013139108, ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)), math.random(0, 270))
+        PED.SET_PED_INTO_VEHICLE(lester_driver, PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true), -1)
+        for _ = 0, VEHICLE.GET_VEHICLE_MAX_NUMBER_OF_PASSENGERS(PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)) - 1 do
+            local lester_passenger = entities.create_ped(28, 2013139108, ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)), math.random(0, 270))
+            PED.SET_PED_INTO_VEHICLE(lester_passenger, PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true), -2)
+        end
+        PED.SET_PED_COMBAT_ATTRIBUTES(lester_driver, 46, true)
+        PED.SET_PED_CAN_BE_DRAGGED_OUT(lester_driver, false)
+        ENTITY.SET_ENTITY_INVINCIBLE(lester_driver, true)
+        TASK.TASK_VEHICLE_DRIVE_WANDER(lester_driver, PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true), 100.00, 524820)
     end)
     menu.toggle(vehicle_stuff, "No Grip", { "nogrip" }, "Removes all traction from the player's vehicle.",
         function(enabled)
